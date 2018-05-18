@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>SSO client1</title>
+</head>
+<body>
+<h1>SSO TaoBao Client1</h1>
+<div class="logout">
+    <div>
+        <form action="/logout" method="post">
+            <input type="submit" value="Logout" />
+        </form>
+    </div>
+</div>
+<!-- <div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
+    Logged in user: <span sec:authentication="name"></span> |
+    authorities: <span sec:authentication="principal.authorities"></span>
+    <div>
+        <form action="#" th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout" />
+        </form>
+    </div>
+</div> -->
+
+<a href="http://sso-tmall:8084/index.html">访问Client2</a><br />
+<a href="/api">访问resource</a>
+</body>
+</html>
