@@ -1,0 +1,46 @@
+server:
+  port: 1400
+
+spring:
+  application:
+    name: security-test-sso-zuul
+
+#不依赖eureka时，以下为传统配置-单实例配置
+zuul:
+  routes:
+    security-test-sso-resource:
+      sensitive-headers: ""
+      path: /security-test-sso-resource/**
+      url: http://sso-resource:8085/
+
+#没有整合类似Eureka之类的服务治理框架，所以需要将该参数设置为false
+ribbon:
+  eureka:
+    enabled: false
+
+#不依赖eureka时，以下为传统配置-多实例配置
+#zuul:
+#  routes:
+#    consumer:
+#      path: /consumer/**
+#      service-id: consumerList
+
+#consumerList:
+#  ribbon:
+#    listOfServers: http://localhost:8889/,http://localhost:8891/ #这儿不能写成list-of-servers，原因？？？？？
+
+#security:
+#  oauth2:
+#    client: 
+#      client-id: merryyou1
+#      client-secret: merryyousecrect1
+#      user-authorization-uri: http://sso-login:8081/oauth/authorize #请求认证的地址
+#      access-token-uri: http://sso-login:8081/oauth/token #请求令牌的地址
+#    resource:
+#      jwt:
+#        key-uri: http://sso-login:8081/oauth/token_key #解析jwt令牌所需要密钥的地址
+
+
+
+
+      
