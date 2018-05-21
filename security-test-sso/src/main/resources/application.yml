@@ -17,4 +17,5 @@ security:
       access-token-uri: ${auth-server}/oauth/token #请求令牌的地址
     resource:
       jwt:
-        key-uri: ${auth-server}/oauth/token_key #解析jwt令牌所需要密钥的地址
+        #key-uri: ${auth-server}/oauth/token_key #解析jwt令牌所需要密钥的地址
+        key-value: merryyou
