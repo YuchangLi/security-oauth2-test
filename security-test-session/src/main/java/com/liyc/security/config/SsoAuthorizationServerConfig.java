@@ -1,7 +1,10 @@
 package com.liyc.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -21,6 +24,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+  @Autowired
+  private AuthenticationManager authenticationManager;
+  @Autowired
+  UserDetailsService userService;
+  
     /**
      * 客户端一些配置
      * @param clients
@@ -31,19 +39,20 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
         clients.inMemory()
                 .withClient("merryyou1")
                 .secret("merryyousecrect1")
-                .authorizedGrantTypes("authorization_code", "refresh_token")
+                .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .scopes("all","read","write")
+                .accessTokenValiditySeconds(86400 * 7) // jwttoken无法自动续签
 //                .autoApprove(true)
                 .and()
                 .withClient("merryyou2")
                 .secret("merryyousecrect2")
-                .authorizedGrantTypes("authorization_code", "refresh_token")
+                .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .scopes("all","read","write")
 //                .autoApprove(true)
                 .and()
                 .withClient("merryyou3")
                 .secret("merryyousecrect3")
-                .authorizedGrantTypes("implicit", "refresh_token")
+                .authorizedGrantTypes("implicit", "refresh_token", "password")
                 .scopes("all","read","write")
 //                .autoApprove(true);
         //                .autoApprove(false);
@@ -57,7 +66,12 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(jwtTokenStore()).accessTokenConverter(jwtAccessTokenConverter());
+        endpoints
+          .authenticationManager(authenticationManager)
+          .userDetailsService(userService)
+          .tokenStore(jwtTokenStore())
+          .accessTokenConverter(jwtAccessTokenConverter())
+          ;
     }
 
     /**

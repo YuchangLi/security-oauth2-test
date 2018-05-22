@@ -1,11 +1,11 @@
 auth-server: http://sso-login:8081 # sso-server地址
 server:
-  port: 8085
+  port: 8086
 #  context-path: /resource
   
 spring:
   application:
-    name: security-test-sso-resource
+    name: security-test-sso-resource2
 
 security:
   oauth2:
@@ -19,7 +19,3 @@ security:
       jwt:
         #key-uri: ${auth-server}/oauth/token_key #解析jwt令牌所需要密钥的地址
         key-value: merryyou
-      
-logging:
-  level:
-    org.springframework: INFO
