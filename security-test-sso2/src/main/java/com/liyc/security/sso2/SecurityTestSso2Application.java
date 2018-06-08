@@ -54,8 +54,9 @@ public class SecurityTestSso2Application {
 
     @RequestMapping("/api")
     String home(Model model) {
-        String result = oAuth2RestTemplate.getForObject(messagesUrl + "/api/2", String.class);
-//        String result = oAuth2RestTemplate.getForObject(messagesUrl + "/hello", String.class);
+//        String result = oAuth2RestTemplate.getForObject(messagesUrl + "/api/2", String.class);
+//        String result = oAuth2RestTemplate.getForObject("http://sso-resource:8086/api/2", String.class);
+        String result = oAuth2RestTemplate.getForObject("http://sso-resource:8086/api/resource1", String.class);
         return result;
     }
 
